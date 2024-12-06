@@ -1,0 +1,54 @@
+<div>Обработка результатов электронной аускультации</div>
+<button type="button" onclick="init()">Пуск</button>
+<div id="label-container"></div>
+
+<script src="tf.js"></script>
+<script src="speech-commands.js"></script>
+
+<script type="text/javascript">
+    async function createModel() {
+        const checkpointURL = "https://raw.githubusercontent.com/xeh2003/MLT/refs/heads/main/model.json";
+        const metadataURL = "https://raw.githubusercontent.com/xeh2003/MLT/refs/heads/main/metadata.json";
+
+        const recognizer = speechCommands.create(
+            "BROWSER_FFT",
+            undefined,
+            checkpointURL,
+            metadataURL
+        );
+
+        await recognizer.ensureModelLoaded();
+
+        return recognizer;
+    }
+
+    async function init() {
+        const recognizer = await createModel();
+        const classLabels = recognizer.wordLabels();
+        const labelContainer = document.getElementById("label-container");
+
+        for (let i = 0; i < classLabels.length; i++) {
+            labelContainer.appendChild(document.createElement("div"));
+        }
+
+		recognizer.listen(result => {
+	    	const scores = result.scores;
+
+	    	for (let i = 0; i < classLabels.length; i++) {
+				let t = result.scores[i].toFixed(2);
+				const classPrediction = classLabels[i] + ": " + t;
+				labelContainer.childNodes[i].innerHTML = classPrediction;
+				if (t > 0.55) {
+					labelContainer.childNodes[i].style.backgroundColor = "red";
+				} else {
+					labelContainer.childNodes[i].style.backgroundColor = "white";
+				}
+			}
+        }, {
+            includeSpectrogram: true,
+            probabilityThreshold: 0.75,
+            invokeCallbackOnNoiseAndUnknown: true,
+            overlapFactor: 0.50
+        });
+    }
+</script>
