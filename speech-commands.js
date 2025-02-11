@@ -272,7 +272,6 @@
                                     ("Expected: " + this.sampleRateHz + "; ") +
                                     ("Actual: " + this.audioContext.sampleRate));
                             }
-                            console.log(this.stream)
                             this.analyser = this.stream
                             //streamSource = this.audioContext.createMediaStreamSource(this.stream);
                             //this.analyser = this.audioContext.createAnalyser();
