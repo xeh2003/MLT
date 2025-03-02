@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <title>Электронная аускультация</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="tf.js"></script>
+        <script src="speech-commands.js"></script>
+        <script src="script.js"></script>
+        <script src="Spectrogram-2v01.js"></script>
+    </head>
+    <body>
+        <div style="width: 100%; background-color: white; border: solid">
+            <div id="file-name-container" style="padding: 0.25em"></div>
+            <div style="padding: 0.25em; border-top: solid">
+                <canvas
+                    id="audio-canvas"
+                    width="300"
+                    height="300"
+                    style="
+                        padding-left: 0;
+                        padding-right: 0;
+                        margin-left: auto;
+                        margin-right: auto;
+                        display: block;
+                        background-color: navy;
+                    "></canvas>
+            </div>
+            <div
+                style="
+                    padding: 0.25em;
+                    height: 2.6em;
+                    border-top: solid;
+                    display: grid;
+                    grid-template-columns: 18em 1fr;
+                ">
+                <div style="position: relative; padding: 0.5em 1em 0 1em">
+                    <button
+                        class="button-link"
+                        id="start-button"
+                        style="width: 2em; float: left; background-position: center center">
+                        &#9658;
+                    </button>
+                    <button
+                        class="button-link"
+                        id="stop-button"
+                        style="margin-left: 0.25em; width: 2em; float: left; background-position: center center">
+                        &#9632;
+                    </button>
+                </div>
+            </div>
+            <div style="padding: 0.25em; border-top: solid">
+                <label style="display: inline-block; text-align: right; vertical-align: middle">Громкость: </label>
+                <input
+                    id="volume-slider"
+                    class="slider"
+                    style="vertical-align: middle"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                    step="1"
+                    oninput="window.playerControls.changeVolume(this);" />
+            </div>
+            <div id="label-container" style="padding: 0.25em; border-top: solid; background-color: white"></div>
+            <div id="result-label" style="padding: 0.25em; border-top: solid; background-color: white"></div>
+        </div>
+    </body>
+</html>
